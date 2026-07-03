@@ -1,0 +1,98 @@
+body {
+  font-family: 'Courier New', monospace;
+  background: #f7f7f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.receipt {
+  background: white;
+  width: 420px;
+  padding: 15px 20px;
+  border: 2px dashed #000;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  text-align: center;
+  border-radius: 10px;
+}
+
+.receipt h2 {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.divider {
+  border-bottom: 2px dashed #000;
+  margin: 6px 0;
+}
+
+p {
+  margin: 3px 0;
+  font-size: 14px;
+}
+
+.total {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.success {
+  font-weight: bold;
+  color: black;
+  margin-top: 4px;
+  font-size: 15px;
+}
+
+button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin-top: 6px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+a {
+  display: block;
+  margin-top: 5px;
+  text-decoration: none;
+  color: black; 
+  font-size: 14px;
+}
+
+.receipt img {
+  width: 160px !important;
+  height: 160px !important;
+  margin-top: 6px;
+}
+
+
+@media print {
+  body {
+    background: none !important;
+    display: block;
+    margin: 0;
+  }
+
+  .receipt {
+    width: 80mm; 
+    box-shadow: none !important;
+    border-radius: 0;
+    border: none; 
+  }
+
+  * {
+    color: #000 !important;        
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  button, a {
+    display: none !important;      
+  }
+}
