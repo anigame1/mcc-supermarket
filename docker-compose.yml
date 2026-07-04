@@ -1,0 +1,45 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8090:8080"
+    environment:
+      APP_NAME: "MCC Supermarket"
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_KEY: "base64:xCt2Pfv3Y/U1DHwIMKSiAPt6hJwRPjob9k9JARLsnAI="
+      APP_URL: "http://localhost:8090"
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: mcc_supermarket
+      DB_USERNAME: mcc
+      DB_PASSWORD: secret
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: mcc_supermarket
+      POSTGRES_USER: mcc
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mcc -d mcc_supermarket"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
