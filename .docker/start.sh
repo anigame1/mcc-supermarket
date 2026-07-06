@@ -23,12 +23,11 @@ fi
 # Run migrations
 php artisan migrate --force
 
-# Seed only when the database is empty (fresh install). This prevents a
-# redeploy from truncating/overwriting real data entered through the app.
-USER_COUNT=$(php artisan tinker --execute="echo \App\Models\User::count();" 2>/dev/null | tr -dc '0-9')
-if [ -z "$USER_COUNT" ] || [ "$USER_COUNT" = "0" ]; then
-    php artisan db:seed --force || true
-fi
+# Run seeders on every deploy. Each seeder guards its own inserts (checks
+# for an existing row before creating one), so this is safe to repeat and
+# won't touch real data added through the app — it only fills in gaps.
+# This also self-heals the demo admin account if it's ever missing.
+php artisan db:seed --force || true
 
 # Create storage symlink
 php artisan storage:link --force 2>/dev/null || true

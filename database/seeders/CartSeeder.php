@@ -17,7 +17,10 @@ class CartSeeder extends Seeder
             return;
         }
 
-        $products = Product::inRandomOrder()->take(2)->get();
+        // Deterministic selection (not inRandomOrder): seeders now run on
+        // every deploy, and a random pick each time would keep adding new
+        // demo cart rows for this account instead of staying idempotent.
+        $products = Product::orderBy('id')->take(2)->get();
 
         foreach ($products as $product) {
             Cart::firstOrCreate(
