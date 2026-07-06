@@ -3,12 +3,19 @@ set -e
 
 cd /var/www/html
 
-# Laravel still needs a .env file present for artisan commands.
+# Laravel still needs a .env file present for artisan commands. It also
+# needs an APP_KEY= line to already exist, otherwise `key:generate` finds
+# nothing to replace, prints an error, and exits 0 anyway — leaving the
+# app running with no encryption key at all (every request 500s).
 touch .env
+grep -q '^APP_KEY=' .env || echo 'APP_KEY=' >> .env
 
 # Only generate a key when one wasn't provided via the environment
-# (e.g. local docker-compose). On Render, APP_KEY is set to a valid
-# base64 value and is used directly — do NOT regenerate or unset it.
+# (e.g. local docker-compose). On Render, APP_KEY should be set to a
+# valid base64 value in the dashboard and is used directly — do NOT
+# regenerate or unset it. If it's still missing here, generate one as a
+# fallback so the app stays up, though sessions won't survive a redeploy
+# until a real APP_KEY is set in the environment.
 if [ -z "$APP_KEY" ]; then
     php artisan key:generate --force
 fi
