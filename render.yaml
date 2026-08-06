@@ -51,6 +51,12 @@ services:
         value: stderr
       - key: LOG_LEVEL
         value: warning
+      - key: CLOUDINARY_CLOUD_NAME
+        value: syhctjbl
+      - key: CLOUDINARY_API_KEY
+        value: 981589565176783
+      - key: CLOUDINARY_API_SECRET
+        sync: false
 
 databases:
   - name: mcc-supermarket-db
