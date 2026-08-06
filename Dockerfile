@@ -54,7 +54,7 @@ RUN chown -R www-data:www-data /var/www/html \
         /var/lib/nginx/tmp/fastcgi \
         /var/lib/nginx/tmp/uwsgi \
         /var/lib/nginx/tmp/scgi \
-    && chown -R www-data:www-data /var/lib/nginx/tmp
+    && chown -R www-data:www-data /var/lib/nginx
 
 # Create storage symlink target
 RUN mkdir -p storage/app/public
