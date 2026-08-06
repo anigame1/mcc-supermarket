@@ -48,7 +48,13 @@ RUN composer run-script post-autoload-dump
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+    && chmod -R 755 /var/www/html/bootstrap/cache \
+    && mkdir -p /var/lib/nginx/tmp/client_body \
+        /var/lib/nginx/tmp/proxy \
+        /var/lib/nginx/tmp/fastcgi \
+        /var/lib/nginx/tmp/uwsgi \
+        /var/lib/nginx/tmp/scgi \
+    && chown -R www-data:www-data /var/lib/nginx/tmp
 
 # Create storage symlink target
 RUN mkdir -p storage/app/public
